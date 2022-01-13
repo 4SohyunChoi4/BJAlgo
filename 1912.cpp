@@ -1,27 +1,27 @@
-#include <vector>
 #include <iostream>
-#include <algorithm>
+#include <vector>
 using namespace std;
+
 int main()
 {
-    int n, input, max;
+    int temp, max;
+    int n;
+    vector<int> dp;
+    
     cin>>n;
-    vector<int> vector;
     
-    for(int i=0 ; i<n; i++){
-        cin>>input;
-        vector.push_back(input);
+    for(int i=0; i<n ; i++){
+        cin>>temp;
+        dp.push_back(temp);
     }
-    
-    max=vector[0];
-    
-    for(int i=1 ; i<n; i++){
-        if(vector[i-1]>0 && vector[i]+vector[i-1]>0 )
-            vector[i]+=vector[i-1];
-        if(max < vector[i])
-            max = vector[i];
+    max=dp[0];
+
+    for(int i=1; i<n; i++){
+        if(dp[i-1]+dp[i]>dp[i])
+            dp[i]=dp[i-1]+dp[i];
+        if(max<dp[i])
+            max=dp[i];
     }
     cout<<max;
- 
- return 0;
+    return 0;
 }
