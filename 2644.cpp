@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
-#include <queue>
+#include <stack>
 #include <memory.h>
+#include <algorithm>
 using namespace std;
 
 int answer=-1, start, target;
@@ -9,27 +10,29 @@ vector<int> family[101];
 bool check[101];
 int cnt[101];
 
-void bfs(){
-    queue<int> q;
-    q.push(start);
-    while(!q.empty()){
-        int temp = q.front();
-        if(temp == target){
-            answer = cnt[temp];
+void dfs(){
+    stack<int> st;
+    st.push(start);
+    while(!st.empty()){
+        int temp = st.top();
+        check[temp] = true;
+        st.pop();
+        if( temp == target){
+            //cout<<cnt[temp]<<endl;
+            answer=cnt[temp];
             return;
         }
-        q.pop();
-        check[temp] = true;
-        for(int i = 0 ; i < family[temp].size() ; i++){
+        for(int i=0; i<family[temp].size(); i++){ 
             if(check[family[temp][i]] == false){
                 check[family[temp][i]] = true;
-                q.push(family[temp][i]);
+                st.push(family[temp][i]);
                 cnt[family[temp][i]] = cnt[temp] + 1;
-                break;
+                //cout<<"family[temp][i] : "<<family[temp][i]<<endl;
             }
         }
     }
 }
+
 int main()
 {
     int n, numberOfLoop;
@@ -39,16 +42,15 @@ int main()
     
     memset(check, sizeof(check), false);
     memset(cnt, sizeof(cnt), 0);
+    //.resize()
     for(int i=0 ; i<numberOfLoop; i++){
         int u, v;
         cin>>u>>v;
         family[u].emplace_back(v);
         family[v].emplace_back(u);
     }
-    
-    bfs();
+    //sort()
+    dfs();
     cout<<answer;
     return 0;
 }
-
-
