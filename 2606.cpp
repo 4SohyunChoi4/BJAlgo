@@ -26,7 +26,6 @@ void dfs(int start) {
 
 }
 
-
 int main(){
     int numberOfPC;
     int numberOfPairs;
